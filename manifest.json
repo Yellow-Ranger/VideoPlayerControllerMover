@@ -1,0 +1,23 @@
+{
+    "name": "Video Player Controller Mover",
+    "description": "User can move the video controls to another spot on the screen",
+    "version": "1.0",
+    "manifest_version": 3,
+    "background": {
+        "service_worker": "js/background.js"
+    },
+    "content_scripts": [
+        {
+            "matches": ["<all_urls>"],
+            "js": ["js/content.js"]
+        }
+    ],
+    "permissions": ["storage", "activeTab", "scripting", "declarativeContent"],
+    "action": {
+        "default_title": "Video Player Controller Mover"
+    },
+    "icons": {
+        "48": "/images/video_player_icon.png",
+        "128": "/images/video_player_icon.png"
+      }
+  }
