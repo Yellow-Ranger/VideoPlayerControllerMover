@@ -10,12 +10,29 @@ function moveVideoControl() {
   if (controlDiv.parentNode) {
     controlBar = controlDiv.parentNode.removeChild(controlDiv);
   }
-  newParent.insertBefore(controlBar, belowDiv);
-  controlBar.style.left = "12px";
+  let newDiv = document.createElement("div");
+  newDiv.id = "parentDivForControlBar";
+  newDiv.style.display = "flex";
+  newDiv.style.justifyContent = "center";
+  newDiv.style.width = "100%";
+  newDiv.style.bottom = "inherit";
+  // document.body.style.overflowX = "hidden";
+  let ytAppContainer = document.querySelector("ytd-app");
+  console.log(ytAppContainer);
+  ytAppContainer.style.overflowX = "hidden";
+  newParent.insertBefore(newDiv, belowDiv);
+  newDiv.appendChild(controlBar);
+  // newParent.insertBefore(controlBar, belowDiv);
+  // controlBar.style.position = "absolute";
+  // controlBar.style.transform = "translate(50%, 50%)";
+  // controlBar.style.left = "12px";
+  controlBar.style.width = "100%";
   controlBar.style.background = "rgb(101,116,132)";
-  controlBar.style.marginLeft = "12px";
+  // controlBar.style.marginLeft = "12px";
   controlBar.style.bottom = "inherit";
-  belowDiv.style.marginTop = "40px";
+  // controlBar.style.margin = "0 auto";
+  controlBar.classList.remove("ytp-chrome-bottom");
+  // belowDiv.style.marginTop = "40px";
   console.log(videoPlayer);
   console.log(controlBar);
   console.log(newParent);
