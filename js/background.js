@@ -2,6 +2,7 @@ function moveVideoControl() {
   let controlBar;
   let videoPlayer = document.getElementById("player");
   let controlDiv = document.querySelector(".ytp-chrome-bottom");
+  let progressBar = document.querySelector(".ytp-progress-bar-container");
   let newParent = document.getElementById("primary-inner");
   let belowDiv = document.getElementById("below");
   //newParent.append(...controlBar.childNodes);
@@ -30,6 +31,8 @@ function moveVideoControl() {
   controlBar.style.background = "rgb(101,116,132)";
   // controlBar.style.marginLeft = "12px";
   controlBar.style.bottom = "inherit";
+  progressBar.style.bottom = "inherit";
+  controlBar.style.minWidth = "100%";
   // controlBar.style.margin = "0 auto";
   controlBar.classList.remove("ytp-chrome-bottom");
   // belowDiv.style.marginTop = "40px";
