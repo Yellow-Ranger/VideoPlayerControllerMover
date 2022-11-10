@@ -35,9 +35,31 @@ chrome.action.onClicked.addListener((tab) => {
   }
 });
 
+let activeTab;
+
+async function getCurrentTab() {
+  let queryOptions = { active: true, lastFocusedWindow: true };
+  // `tab` will either be a `tabs.Tab` instance or `undefined`.
+  let [tab] = await chrome.tabs.query(queryOptions);
+  return tab;
+}
+
 chrome.webNavigation.onDOMContentLoaded.addListener((tabId) => {
-  chrome.scripting.executeScript({
-    target: { tabId: tabId.tabId },
-    function: moveVideoControl,
-  });
+  // let result = await getCurrentTab();
+  // let currentTabId = result.id;
+  // prevTab = currentTabId;
+
+  if (activeTab) {
+    chrome.scripting.executeScript({
+      target: { tabId: tabId.tabId },
+      function: moveVideoControl,
+    });
+    console.log(tabId.tabId, " content loaded");
+    activeTab = false;
+  }
+});
+
+chrome.tabs.onActivated.addListener((tabId) => {
+  console.log(tabId, " activated");
+  activeTab = true;
 });
