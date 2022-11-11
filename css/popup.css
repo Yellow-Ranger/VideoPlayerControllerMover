@@ -1,0 +1,11 @@
+.switch-container {
+    display: flex;
+    height: 50px;
+    width: 400px;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+#revertButton, #moveControlBar {
+    background-color: #657484;
+}

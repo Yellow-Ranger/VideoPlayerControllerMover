@@ -8,14 +8,21 @@
     },
     "content_scripts": [
         {
-            "matches": ["https://www.youtube.com/*"],
+            "matches": ["<all_urls>"],
             "js": ["js/content.js"]
         }
     ],
-    "permissions": ["storage", "activeTab", "scripting", "declarativeContent", "webNavigation", "tabs"],
+    "web_accessible_resources": [
+        {
+        "resources": ["js/inject-script.js"],
+        "matches": ["https://www.youtube.com/*"]
+        }
+    ],
+    "permissions": ["tabs", "activeTab", "scripting", "webNavigation", "storage"],
     "host_permissions": ["https://www.youtube.com/*"],
     "action": {
-        "default_title": "Video Player Controller Mover"
+        "default_title": "Video Player Controller Mover",
+        "default_popup": "html/popup.html"
     },
     "icons": {
         "48": "/images/video_player_icon.png",
