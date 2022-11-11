@@ -4,10 +4,7 @@ document
 
 function onRevertPageClick() {
   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-    chrome.tabs.sendMessage(
-      tabs[0].id,
-      { title: "revertButton", body: true },
-    );
+    chrome.tabs.sendMessage(tabs[0].id, { title: "revertButton", body: true });
   });
 }
 
@@ -17,23 +14,20 @@ document
 
 function onDropBarClick() {
   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-    chrome.tabs.sendMessage(
-      tabs[0].id,
-      { title: "dropBar", body: true },
-    );
+    chrome.tabs.sendMessage(tabs[0].id, { title: "dropBar", body: true });
   });
 }
 
 document.getElementById("switchInput").addEventListener("change", (e) => {
   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-    chrome.tabs.sendMessage(
-      tabs[0].id,
-      { title: "switchStatus", body: `${e.target.checked}` },
-    );
+    chrome.tabs.sendMessage(tabs[0].id, {
+      title: "switchStatus",
+      body: `${e.target.checked}`,
+    });
   });
 });
 
-chrome.runtime.onMessage.addListener((request, sender) => {
+chrome.runtime.onMessage.addListener((request) => {
   if (request.title === "switchStatus") {
     document.getElementById("switchInput").checked = request.body;
   }

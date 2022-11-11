@@ -3,7 +3,6 @@ let autoDrop;
 
 window.onload = function () {
   domLoaded = false;
-  console.log("VPCM Content Script Loaded.");
   autoDrop = localStorage.getItem("autoDrop");
   if (autoDrop) {
     autoDrop = autoDrop == "true";
@@ -13,22 +12,18 @@ window.onload = function () {
   chrome.runtime.sendMessage({ title: "switchStatus", body: autoDrop });
 };
 
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener((request) => {
   if (request.title === "switchStatus") {
-    sendResponse({ response: "switchStatus message recieved" });
     autoDrop = request.body;
     localStorage.setItem("autoDrop", `${autoDrop}`);
     if (autoDrop) {
       moveVideoControl();
     }
   } else if (request.title === "dropBar") {
-    sendResponse({ response: "dropBar message recieved" });
     moveVideoControl();
   } else if (request.title === "revertButton") {
     location.reload();
-    sendResponse({ response: "revert message recieved" });
   } else if (request.title === "requestSwitchStatus") {
-    sendResponse({ body: autoDrop });
   } else {
     console.log("no case matched");
   }
@@ -65,13 +60,6 @@ function moveVideoControl() {
   }
 }
 
-async function getCurrentTab() {
-  let queryOptions = { active: true, lastFocusedWindow: true };
-  // `tab` will either be a `tabs.Tab` instance or `undefined`.
-  let [tab] = await chrome.tabs.query(queryOptions);
-  return tab;
-}
-
 window.addEventListener("load", (event) => {
   if (autoDrop) {
     createObserver();
@@ -87,7 +75,6 @@ document.addEventListener("visibilitychange", (e) => {
         moveVideoControl();
       }
       chrome.runtime.sendMessage({ title: "switchStatus", body: autoDrop });
-      // const retryDropInterval = setInterval(moveVideoControl, 1000);
     } else {
       localStorage.setItem("autoDrop", "false");
       chrome.runtime.sendMessage({ title: "switchStatus", body: autoDrop });
