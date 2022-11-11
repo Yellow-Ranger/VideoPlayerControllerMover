@@ -1,6 +1,6 @@
 {
     "name": "Video Player Controller Mover",
-    "description": "User can move the video controls to another spot on the screen",
+    "description": "Hide the video controls offscreen",
     "version": "1.0",
     "manifest_version": 3,
     "background": {
@@ -8,17 +8,11 @@
     },
     "content_scripts": [
         {
-            "matches": ["<all_urls>"],
+            "matches": ["https://www.youtube.com/*"],
             "js": ["js/content.js"]
         }
     ],
-    "web_accessible_resources": [
-        {
-        "resources": ["js/inject-script.js"],
-        "matches": ["https://www.youtube.com/*"]
-        }
-    ],
-    "permissions": ["tabs", "activeTab", "scripting", "webNavigation", "storage"],
+    "permissions": ["tabs", "storage"],
     "host_permissions": ["https://www.youtube.com/*"],
     "action": {
         "default_title": "Video Player Controller Mover",
