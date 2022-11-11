@@ -12,18 +12,22 @@ window.onload = function () {
   chrome.runtime.sendMessage({ title: "switchStatus", body: autoDrop });
 };
 
-chrome.runtime.onMessage.addListener((request) => {
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.title === "switchStatus") {
+    sendResponse({ response: "switchStatus message recieved" });
     autoDrop = request.body;
     localStorage.setItem("autoDrop", `${autoDrop}`);
     if (autoDrop) {
       moveVideoControl();
     }
   } else if (request.title === "dropBar") {
+    sendResponse({ response: "dropBar message recieved" });
     moveVideoControl();
   } else if (request.title === "revertButton") {
     location.reload();
+    sendResponse({ response: "revert message recieved" });
   } else if (request.title === "requestSwitchStatus") {
+    sendResponse({ body: autoDrop });
   } else {
     console.log("no case matched");
   }
@@ -58,6 +62,12 @@ function moveVideoControl() {
   } else {
     console.log("Bar already dropped or page not loaded");
   }
+}
+
+async function getCurrentTab() {
+  let queryOptions = { active: true, lastFocusedWindow: true };
+  let [tab] = await chrome.tabs.query(queryOptions);
+  return tab;
 }
 
 window.addEventListener("load", (event) => {
