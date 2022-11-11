@@ -42,7 +42,6 @@ function moveVideoControl() {
     let newParent = document.getElementById("primary-inner");
     let belowDiv = document.getElementById("below");
 
-    console.log("controlDiv parentNode: ", controlDiv);
     controlBar = controlDiv.parentNode.removeChild(controlDiv);
     let newDiv = document.createElement("div");
     newDiv.id = "dropBar";
@@ -52,9 +51,6 @@ function moveVideoControl() {
     newDiv.style.bottom = "inherit";
     let ytAppContainer = document.querySelector("ytd-app");
     ytAppContainer.style.overflowX = "hidden";
-    console.log("newParent div: ", newParent);
-    console.log("newDiv div: ", newDiv);
-    console.log("belowDiv div: ", belowDiv);
     newParent.insertBefore(newDiv, belowDiv);
     newDiv.appendChild(controlBar);
 
@@ -64,9 +60,6 @@ function moveVideoControl() {
     progressBar.style.bottom = "inherit";
     controlBar.style.minWidth = "100%";
     controlBar.classList.remove("ytp-chrome-bottom");
-    // if (typeof retryDropInterval !== "undefined") {
-    //   clearInterval(retryDropInterval);
-    // }
   } else {
     console.log("Bar already dropped or page not loaded");
   }
@@ -80,24 +73,17 @@ async function getCurrentTab() {
 }
 
 window.addEventListener("load", (event) => {
-  console.log("Dom loaded");
   if (autoDrop) {
     createObserver();
   }
-  // if (document.visibilityState === "visible" && autoDrop && domLoaded) {
-  //   console.log("loaded and visible");
-  //   moveVideoControl();
-  // }
 });
 
 document.addEventListener("visibilitychange", (e) => {
-  console.log("Visibility change: ", e);
   if (document.visibilityState === "visible") {
     autoDrop = localStorage.getItem("autoDrop");
     if (autoDrop) {
       autoDrop = autoDrop == "true";
       if (autoDrop && domLoaded) {
-        console.log("in second if statement");
         moveVideoControl();
       }
       chrome.runtime.sendMessage({ title: "switchStatus", body: autoDrop });
